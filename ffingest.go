@@ -210,7 +210,7 @@ func writeCSVGCS(data [][]string, directory string, filename string) (dir string
 	// Remember to clean up the file afterwards
 	defer os.Remove(tmpFile.Name())
 
-	fmt.Println("Created File: " + tmpFile.Name())
+	fmt.Println("Crea ted File: " + tmpFile.Name())
 	writer := csv.NewWriter(tmpFile)
 	defer writer.Flush()
 
