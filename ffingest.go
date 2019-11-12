@@ -67,7 +67,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing Score
 	folders := "boxscore_score"
 	bxFolders = append(bxFolders, folders)
-	apiLabels := "boxscore_score" + hometeam + "_" + awayteam
+	apiLabels := "boxscore_score_" + "$" + hometeam + "_" + awayteam
 	scoreDir, scoreFile := Parser(apiLabels, folders, week, season, hometeam, *boxscorev3.Score)
 	folderDirectory = append(folderDirectory, scoreDir)
 	files = append(files, scoreFile)
@@ -75,7 +75,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing Quarters
 	folderq := "boxscore_quarters"
 	bxFolders = append(bxFolders, folderq)
-	apiLabelq := "boxscore_quarters" + hometeam + "_" + awayteam
+	apiLabelq := "boxscore_quarters_" + "$" + hometeam + "_" + awayteam
 	quarterDir, quarterFile := Parser(apiLabelq, folderq, week, season, hometeam, boxscorev3.Quarters)
 	folderDirectory = append(folderDirectory, quarterDir)
 	files = append(files, quarterFile)
@@ -83,7 +83,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing TeamGames
 	foldertg := "boxscore_teamgames"
 	bxFolders = append(bxFolders, foldertg)
-	apiLabeltg := "boxscore_teamgames" + hometeam + "_" + awayteam
+	apiLabeltg := "boxscore_teamgames_" + "$" + hometeam + "_" + awayteam
 	tgDir, tgFile := Parser(apiLabeltg, foldertg, week, season, hometeam, boxscorev3.TeamGames)
 	folderDirectory = append(folderDirectory, tgDir)
 	files = append(files, tgFile)
@@ -91,7 +91,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing PlayerGames
 	folderpg := "boxscore_playergames"
 	bxFolders = append(bxFolders, folderpg)
-	apiLabelpg := "boxscore_playergames" + hometeam + "_" + awayteam
+	apiLabelpg := "boxscore_playergames_" + "$" + hometeam + "_" + awayteam
 	pgDir, pgFile := Parser(apiLabelpg, folderpg, week, season, hometeam, boxscorev3.PlayerGames)
 	folderDirectory = append(folderDirectory, pgDir)
 	files = append(files, pgFile)
@@ -99,7 +99,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing FantasyDefenseGames
 	folderfdg := "boxscore_fantasydefensegames"
 	bxFolders = append(bxFolders, folderfdg)
-	apiLabelfdg := "boxscore_fantasydefensegames_" + hometeam + "_" + awayteam
+	apiLabelfdg := "boxscore_fantasydefensegames_" + "$" + hometeam + "_" + awayteam
 	fdgDir, fdgFile := Parser(apiLabelfdg, folderfdg, week, season, hometeam, boxscorev3.FantasyDefenseGames)
 	folderDirectory = append(folderDirectory, fdgDir)
 	files = append(files, fdgFile)
@@ -107,7 +107,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing ScoringPlay
 	foldersp := "boxscore_scoringplays"
 	bxFolders = append(bxFolders, foldersp)
-	apiLabelsp := "boxscore_scoringplays_" + hometeam + "_" + awayteam
+	apiLabelsp := "boxscore_scoringplays_" + "$" + hometeam + "_" + awayteam
 	bxsp := "ScoringPlayID"
 	spDir, spFile := Parser(apiLabelsp, foldersp, week, season, hometeam, boxscorev3.ScoringPlays, bxsp)
 	folderDirectory = append(folderDirectory, spDir)
@@ -116,7 +116,7 @@ func parseBoxScore(boxscorev3 nflv3stats.BoxScoreV3, res http.Response, season, 
 	// Parsing ScoringDetails
 	foldersd := "boxscore_scoringdetails"
 	bxFolders = append(bxFolders, foldersd)
-	apiLabelsd := "boxscore_scoringdetails_" + hometeam + "_" + awayteam
+	apiLabelsd := "boxscore_scoringdetails_" + "$" + hometeam + "_" + awayteam
 	sdDir, sdFile := Parser(apiLabelsd, foldersd, week, season, hometeam, boxscorev3.ScoringDetails)
 	folderDirectory = append(folderDirectory, sdDir)
 	files = append(files, sdFile)
@@ -242,7 +242,7 @@ func writeCSVGCS(data [][]string, directory string, filename string) (dir string
 
 	bucket := os.Getenv("GOOG_BUCKET")
 	destinationString := "fantasydata/" + filename
-
+	fmt.Println("here is destination string: ", destinationString)
 	wc := client.Bucket(bucket).Object(destinationString).NewWriter(ctx)
 	if _, err := io.Copy(wc, f); err != nil {
 		fmt.Println("Problem processing file: ", err)
@@ -255,7 +255,8 @@ func writeCSVGCS(data [][]string, directory string, filename string) (dir string
 		log.Fatal(err)
 	}
 	gcsfileProcessed := filename
-
+	fmt.Println("Here is directory: ", directory)
+	fmt.Println("HEre is gcsfileProcessed: ", gcsfileProcessed)
 	return directory, gcsfileProcessed
 
 }
