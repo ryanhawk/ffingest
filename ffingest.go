@@ -41,7 +41,7 @@ func IngestFFAPI(w http.ResponseWriter, r *http.Request) {
 		AwayTeam string `json:"awayteam"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&bx); err != nil {
-		fmt.Fprint(w, "Please enter the appropriate values!")
+		fmt.Fprint(w, "ffingest: Please enter the appropriate values!")
 	}
 	f, file, sn := Boxscore(ctx, ffClient, bx.Week, bx.Season, bx.HomeTeam, bx.AwayTeam)
 	fmt.Fprintf(w, "Here are the results: %s, %s, %s", f, file, sn)

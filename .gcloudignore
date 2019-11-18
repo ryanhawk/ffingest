@@ -1,2 +1,6 @@
 go.mod
 go.sum
+# Also ignore Git directories. Delete the following two lines if you want to
+# upload them.
+.git
+.gitignore
